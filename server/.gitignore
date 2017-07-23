@@ -1,0 +1,3 @@
+config/default.toml
+__pycache__
+data/*

@@ -1,0 +1,4 @@
+[api]
+key = "your_key_here"
+url = "https://us.api.battle.net/"
+locale = "en_US"
