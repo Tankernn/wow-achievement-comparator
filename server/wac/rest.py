@@ -27,6 +27,11 @@ def search(query):
 def realms(region):
     return jsonify([realm['name'] for realm in api.get_json("/wow/realm/status", url="https://{}.api.battle.net".format(region))['realms']])
 
+@app.route("/character/<region>/<realm>/<name>")
+@cross_origin()
+def character(region, realm, name):
+    return jsonify(api.get_json("/wow/character/{}/{}".format(realm, name), url="https://{}.api.battle.net".format(region)))
+
 @app.after_request
 def apply_json(response):
     response.headers["Content-Type"] = "application/json"
