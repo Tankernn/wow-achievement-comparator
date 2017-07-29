@@ -14,8 +14,9 @@ except IOError as e:
     )
     raise e
 
-def get_json(method):
+def get_json(method, **kwargs):
     params = dict(config['api'])
     params['method'] = method
+    params.update(kwargs)
     r = requests.get("{url}{method}?locale={locale}&apiKey={key}".format(**params))
     return r.json()
