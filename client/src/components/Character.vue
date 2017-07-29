@@ -72,7 +72,9 @@ export default {
     addCharacter: function () {
       this.$http.get([this.apiEndpoint, 'character', this.region.value, this.realm.value, this.name].join('/'))
         .then(response => {
-          this.$emit('add-character', response.body)
+          var character = response.body
+          character.region = this.region.value
+          this.$emit('add-character', character)
         }, response => {
           console.error(response)
         })
