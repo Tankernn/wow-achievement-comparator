@@ -18,7 +18,7 @@ ix = index.open_dir("data")
 @cross_origin()
 def search(query):
     with ix.searcher() as searcher:
-        query = MultifieldParser(["title", "description"], ix.schema).parse(query)
+        query = MultifieldParser(["title", "description"], ix.schema).parse("*{}*".format(query))
         results = searcher.search(query, limit=10)
         return jsonify([dict(r) for r in results])
 

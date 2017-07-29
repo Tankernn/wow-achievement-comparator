@@ -7,13 +7,11 @@
       <form role="form" id="achievement">
         <div class="form-group">
           <div class="btn-group btn-group-justified">
-            <v-select placeholder="Nothing selected"
-                      v-model="select.value"
-                      :options="select.options"
-                      options-value="id"
-                      search justified required
-                      close-on-select>
-            </v-select>
+            <typeahead placeholder="Search achievement..."
+                      :async="apiEndpoint + '/search/'"
+                      :template="template"
+                      :on-hit="callback">
+            </typeahead>
           </div>
         </div>
         <button class="btn btn-block btn-primary">Add</button>
@@ -23,22 +21,27 @@
 </template>
 
 <script>
-import vSelect from 'vue-strap/src/Select.vue'
+import { typeahead } from 'vue-strap'
 
 export default {
   name: 'achievement',
   data () {
     return {
-      select: {
-        value: '',
-        options: [
-          {id: 2, label: 'Explore...'}
-        ]
-      }
+      achievements: [],
+      asynchronous: '{{item.title}}',
+      template: '<img :src=\'"http://media.blizzard.com/wow/icons/18/" + item.icon + ".jpg"\' /> <span>{{item.title}}</span>'
     }
   },
+  methods: {
+    callback: function (item) {
+      return item.title
+    }
+  },
+  mounted: function () {
+    this.getAchievements()
+  },
   components: {
-    vSelect
+    typeahead
   }
 }
 </script>

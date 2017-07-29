@@ -7,6 +7,17 @@
       <form role="form" id="character">
         <div class="form-group">
           <div class="btn-group btn-group-justified">
+            <v-select placeholder="No region selected"
+                      v-model="region.value"
+                      :options="region.options"
+                      value="value"
+                      search justified required
+                      close-on-select>
+            </v-select>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="btn-group btn-group-justified">
             <v-select placeholder="No realm selected"
                       v-model="realm.value"
                       :options="realm.options"
@@ -31,16 +42,41 @@ export default {
   name: 'character',
   data () {
     return {
-      realm: {
-        value: 'Neptulon',
+      region: {
+        value: 'eu',
         options: [
-          'Neptulon',
-          'Darksorrow',
-          'Darkspear'
+          {value: 'eu', label: 'Europe'},
+          {value: 'us', label: 'United States'},
+          {value: 'kr', label: 'Korea'},
+          {value: 'tw', label: 'Taiwan'}
+        ]
+      },
+      realm: {
+        value: '',
+        options: [
         ]
       },
       name: ''
     }
+  },
+  methods: {
+    getData: function () {
+      this.$http.get(this.apiEndpoint + '/realms/' + this.region.value)
+        .then(response => {
+          console.log(response)
+          this.realm.options = response.body
+        }, response => {
+          console.error(response)
+        })
+    }
+  },
+  watch: {
+    'region.value': function (oldVal, newVal) {
+      this.getData()
+    }
+  },
+  mounted: function () {
+    this.getData()
   },
   components: {
     vSelect
