@@ -10,11 +10,12 @@
             <typeahead placeholder="Search achievement..."
                       :async="apiEndpoint + '/search/'"
                       :template="template"
-                      :on-hit="callback">
+                      :on-hit="callback"
+                      v-model="selectText">
             </typeahead>
           </div>
         </div>
-        <button class="btn btn-block btn-primary">Add</button>
+        <button @click="addAchievement" class="btn btn-block btn-primary">Add</button>
       </form>
     </div>
   </div>
@@ -28,17 +29,22 @@ export default {
   data () {
     return {
       achievements: [],
+      selected: {},
+      selectText: '',
       asynchronous: '{{item.title}}',
       template: '<img :src=\'"http://media.blizzard.com/wow/icons/18/" + item.icon + ".jpg"\' /> <span>{{item.title}}</span>'
     }
   },
   methods: {
     callback: function (item) {
+      this.selected = item
       return item.title
+    },
+    addAchievement: function () {
+      this.$emit('add-achievement', this.selected)
+      this.selected = {}
+      this.selectText = ''
     }
-  },
-  mounted: function () {
-    this.getAchievements()
   },
   components: {
     typeahead

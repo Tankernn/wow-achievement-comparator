@@ -29,7 +29,7 @@
         <div class="form-group">
           <input class="form-control" placeholder="Character name" v-model="name" autofocus="" type="text">
         </div>
-        <button class="btn btn-block btn-primary">Add <i class="fa fa-plus"></i></button>
+        <button @click="addCharacter" class="btn btn-block btn-primary">Add <i class="fa fa-plus"></i></button>
       </form>
     </div>
   </div>
@@ -65,6 +65,14 @@ export default {
         .then(response => {
           console.log(response)
           this.realm.options = response.body
+        }, response => {
+          console.error(response)
+        })
+    },
+    addCharacter: function () {
+      this.$http.get([this.apiEndpoint, 'character', this.region.value, this.realm.value, this.name].join('/'))
+        .then(response => {
+          this.$emit('add-character', response.body)
         }, response => {
           console.error(response)
         })

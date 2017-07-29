@@ -2,15 +2,18 @@
   <div class="container">
     <div class="row">
       <div class="col-md-4 col-md-offset-2">
-        <character></character>
+        <character @add-character="addCharacter"></character>
       </div>
       <div class="col-md-4">
-        <achievement></achievement>
+        <achievement @add-achievement="addAchievement"></achievement>
       </div>
     </div>
     <div class="row">
       <div class="col-md-12">
-        <progress-table></progress-table>
+        <progress-table
+            :characters="characters"
+            :achievements="achievements"
+        ></progress-table>
       </div>
     </div>
   </div>
@@ -25,6 +28,16 @@ export default {
   name: 'main',
   data () {
     return {
+      characters: [],
+      achievements: []
+    }
+  },
+  methods: {
+    addCharacter: function (character) {
+      this.characters.push(character)
+    },
+    addAchievement: function (achievement) {
+      this.achievements.push(achievement)
     }
   },
   components: {

@@ -5,17 +5,17 @@
         <th>
           Character
         </th>
-        <th>
-          Progress
+        <th v-for="achievement in achievements">
+          {{achievement.title}}
         </th>
       </tr>
     </thead>
     <tbody>
-      <tr>
+      <tr v-for="character in characters">
         <td>
-          Example
+          {{character.name}}
         </td>
-        <td>
+        <td v-for="achievement in achievements">
           <progressbar now=10 label type="success"></progressbar>
         </td>
       </tr>
@@ -28,12 +28,7 @@ import { progressbar } from 'vue-strap'
 
 export default {
   name: 'progress-table',
-  data () {
-    return {
-      characters: [],
-      achievements: []
-    }
-  },
+  props: ['characters', 'achievements'],
   components: {
     progressbar
   }
